@@ -1,0 +1,35 @@
+<div class="container">
+  <h2>User Management System</h2>
+
+  <!-- Add User -->
+  <div class="card">
+    <input type="text" placeholder="Enter name" [(ngModel)]="name">
+
+    <select [(ngModel)]="role">
+      <option>Admin</option>
+      <option>User</option>
+      <option>Guest</option>
+    </select>
+
+    <button (click)="addUser()">Add User</button>
+  </div>
+
+  <!-- Filter -->
+  <div class="filter">
+    <label>Filter by Role:</label>
+    <select [(ngModel)]="selectedRole">
+      <option>All</option>
+      <option>Admin</option>
+      <option>User</option>
+      <option>Guest</option>
+    </select>
+  </div>
+
+  <!-- User List -->
+  <div class="list">
+    <div class="user-card" *ngFor="let user of filteredUsers(); let i = index">
+      <span>{{ user.name }} ({{ user.role }})</span>
+      <button class="remove" (click)="removeUser(i)">Remove</button>
+    </div>
+  </div>
+</div>
