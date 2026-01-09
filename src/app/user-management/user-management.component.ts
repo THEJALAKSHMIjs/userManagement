@@ -1,22 +1,29 @@
 import { Component } from '@angular/core';
-import { User } from '../user';
-import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { User } from '../user';
+import { HoverHighlightDirective } from '../directives/hover-highlight.directive';
+import { IfAdminDirective } from '../directives/if-admin.directive';
 
 @Component({
   selector: 'app-user-management',
   standalone: true,
-  imports: [ FormsModule , CommonModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    HoverHighlightDirective,
+    IfAdminDirective
+  ],
   templateUrl: './user-management.component.html',
   styleUrl: './user-management.component.css'
 })
 export class UserManagementComponent {
- users: User[] = [];
 
-  name: string = '';
-  role: string = 'Admin';
-  selectedRole: string = 'All';
+  users: User[] = [];
+
+  name = '';
+  role = 'Admin';
+  selectedRole = 'All';
 
   addUser() {
     if (this.name.trim()) {
@@ -30,9 +37,16 @@ export class UserManagementComponent {
   }
 
   filteredUsers() {
-    if (this.selectedRole === 'All') {
-      return this.users;
-    }
-    return this.users.filter(user => user.role === this.selectedRole);
+    return this.selectedRole === 'All'
+      ? this.users
+      : this.users.filter(u => u.role === this.selectedRole);
+  }
+
+  getTextColor(role: string) {
+    return role === 'Admin'
+      ? 'red'
+      : role === 'User'
+      ? 'blue'
+      : 'gray';
   }
 }

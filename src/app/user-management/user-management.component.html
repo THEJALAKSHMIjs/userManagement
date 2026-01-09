@@ -27,8 +27,30 @@
 
   <!-- User List -->
   <div class="list">
-    <div class="user-card" *ngFor="let user of filteredUsers(); let i = index">
-      <span>{{ user.name }} ({{ user.role }})</span>
+    <div
+      class="user-card"
+      *ngFor="let user of filteredUsers(); let i = index"
+
+      [ngClass]="{
+        'admin-card': user.role === 'Admin',
+        'user-card-normal': user.role === 'User',
+        'guest-card': user.role === 'Guest'
+      }"
+
+      [ngStyle]="{ color: getTextColor(user.role) }"
+
+      appHoverHighlight="#dbeafe"
+    >
+
+      <span>
+        {{ user.name }} ({{ user.role }})
+      </span>
+
+      <!-- Admin-only content -->
+      <span class="admin-badge" *appIfAdmin="user.role">
+        ADMIN
+      </span>
+
       <button class="remove" (click)="removeUser(i)">Remove</button>
     </div>
   </div>
